@@ -254,14 +254,14 @@ contract TBL4TokenSale {
     //uint public constant bonusesPercent = 3;
     uint public constant devsPercent = 35;
 
-    uint public constant softcap = 2 * 1 ether; // 1000;
-    uint public constant hardcap = 20 * 1 ether; // 10000
+    uint public constant softcap = 2000 * 1 ether; // 1000;
+    uint public constant hardcap = 10000 * 1 ether; // 10000
  
-    uint public constant startPreSale = 1526356800; // 2018-05-15 4:00
-    uint public constant endPreSale = 1526529600; // 2018-05-17 4:00
+    uint public constant startPreSale = 1526356800; // 2018-07-09 00:00
+    uint public constant endPreSale = 1526529600; // 2018-07-17 23:50
 
-    uint public constant startSale = 1526616000; // 2018-05-18 4:00
-    uint public constant endSale = 1526788800; // 2018-05-20 4:00
+    uint public constant startSale = 1526616000; // 2018-08-06 0:00
+    uint public constant endSale = 1526788800; // 2018-09-05 23:50
 
     TBL4Token public token = new TBL4Token();
 
@@ -427,7 +427,7 @@ contract TBL4TokenSale {
             if (_fundedEth > 0)
             {
                 //uint256 _issuedTokens = _fundedEth.mul(rate).mul(10000000000000000).div(1 ether); rate is 1000, 1 token is 10^15, 1 ether is 10^18
-                uint256 _issuedTokens = _fundedEth * 120 / 100;
+                uint256 _issuedTokens = _fundedEth * 120 / 100; // 20% presale bonus
                 deliver(_addr, _fundedEth, _issuedTokens);
             }
             prebalances[_addr] = 0;
@@ -470,7 +470,7 @@ contract TBL4TokenSale {
             address _addr = _addrs[i];
             uint256 _fundedEth = prebalances[_addr];
            //uint256 _issuedTokens = _fundedEth.mul(rate).mul(10000000000000000).div(1 ether); rate is 1000, 1 token is 10^15, 1 ether is 10^18
-            uint256 _issuedTokens = _fundedEth * 120 / 100;
+            uint256 _issuedTokens = _fundedEth * 120 / 100; // 20% presale bonus
             if (_fundedEth > 0)
             {
                 deliver(_addr, _fundedEth, _issuedTokens);
@@ -552,7 +552,7 @@ contract TBL4TokenSale {
 
     function issueDevsTokens() public /*onlyOwner*/ isAboveSoftCap {
 
-        require(finalizeState == State.Finished && now > endSale + 2 years); // startPreSale + 10 minutes
+        require(finalizeState == State.Finished && now > endSale + 2 years); // for testing startPreSale + 10 minutes
         
         // the rest of tokens is exactly the devs amount
         uint _devsTokens = token.balanceOf(this);
